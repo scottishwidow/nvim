@@ -18,9 +18,29 @@ require("lazy").setup({
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
   {
     "nvim-tree/nvim-tree.lua",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons", -- optional, for file icons
-    }
-  }
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("nvim-tree").setup()
+    end,
+  },
+  { 
+    "rose-pine/neovim", 
+    name = "rose-pine",
+    config = function()
+      require("rose-pine").setup({
+        dark_variant = "main",
+        bold_vert_split = false,
+        dim_nc_background = false,
+        disable_background = false,
+        disable_float_background = false,
+        disable_italics = false,
+      })
+      vim.cmd("colorscheme rose-pine")
+    end,
+  },
 })
+
+
+
+
 
