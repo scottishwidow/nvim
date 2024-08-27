@@ -15,38 +15,44 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  spec = {
-    -- add LazyVim and import its plugins
-    -- import/override with your plugins
-    { import = "plugins" },
-  },
-  defaults = {
-    -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-    -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-    lazy = false,
-    -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-    -- have outdated releases, which may break your Neovim install.
-    version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
-  },
-  install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
-  }, -- automatically check for plugin updates
-  performance = {
-    rtp = {
-      -- disable some rtp plugins
-      disabled_plugins = {
-        "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("nvim-tree").setup({
+        update_focused_file = {
+        enable = true,            -- Enables updating the tree when you change files
+        update_cwd = true,        -- Updates the root directory of the tree to the current working directory
+        ignore_list = {},         -- Files to ignore when updating
       },
-    },
+      view = {
+        adaptive_size = true,     -- Automatically adjusts the width of the tree window
+      },
+      renderer = {
+        highlight_opened_files = "all",  -- Highlights the current file in the tree
+          },
+      })
+    end,
+  },
+  { 
+    "rose-pine/neovim", 
+    name = "rose-pine",
+    config = function()
+      require("rose-pine").setup({
+        dark_variant = "main",
+        bold_vert_split = false,
+        dim_nc_background = false,
+        disable_background = false,
+        disable_float_background = false,
+        disable_italics = false,
+      })
+      vim.cmd("colorscheme rose-pine")
+    end,
   },
 })
+
+
+
+
+
