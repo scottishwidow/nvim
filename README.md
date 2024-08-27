@@ -1,4 +1,4 @@
-Two configurations stored:
+# 💤 LazyVim
 
-1. LazyVim default setup with some additional customizations.
-2. From 0 LUA config for learning and gradual building.
+A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
+Refer to the [documentation](https://lazyvim.github.io/installation) to get started.

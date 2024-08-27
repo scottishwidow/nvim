@@ -1,12 +1,2 @@
--- minimal configuration
+-- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
-
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
--- keymaps
-
-vim.keymap.set("n", "<leader>pv", ":Ex<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-a>", "ggVG", { noremap = true, silent = true })
-vim.keymap.set("i", "jj", "<ESC>", { noremap = true, silent = true })
