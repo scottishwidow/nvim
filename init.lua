@@ -1,6 +1,6 @@
 -- minimal configuration
 require("config.lazy")
-
+require("config.options")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -19,3 +19,11 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 vim.keymap.set("n", "<leader>gf", builtin.git_files, {})
+
+-- window switch
+
+vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
+vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
+vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
+vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+
