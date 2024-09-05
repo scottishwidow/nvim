@@ -4,3 +4,5 @@
 
 vim.api.nvim_set_keymap("n", "<C-_>", "gcc", { noremap = false })
 vim.api.nvim_set_keymap("v", "<C-_>", "gcc", { noremap = false })
+
+vim.keymap.set("n", "<leader>pv", ":Ex<CR>", { desc = "Open NetRW" })
