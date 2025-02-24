@@ -13,6 +13,7 @@ return {
             },
           },
         },
+        terraformls = {},
         -- lazy-load schemastore when needed
         on_new_config = function(new_config)
           new_config.settings.yaml.schemas =
