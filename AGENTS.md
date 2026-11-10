@@ -6,6 +6,27 @@ This file defines how coding agents should operate in this repository.
 
 Personal Neovim config that layers a handful of opinionated tweaks on top of [LazyVim](https://lazyvim.org).
 
+## Project Layout
+
+- `lua/config/` contains only `lazy.lua`, `options.lua`, `keymaps.lua`, and `autocmds.lua`. LazyVim does not load other files in this directory.
+- Put each plugin spec in `lua/plugins/`.
+- Enable language support with LazyVim extras in `lazyvim.json`. Do not copy extra code into custom specs.
+- Mason installs all language servers, linters, and formatters. Do not configure servers from global installs.
+
+## Verification
+
+**An agent must** run these checks after a change:
+
+- `stylua --check .`
+- Start the config headless with isolated data directories, so the user's plugins stay unchanged:
+
+  ```sh
+  NVIM_APPNAME=<worktree-dir-name> XDG_DATA_HOME=<tmp>/data XDG_STATE_HOME=<tmp>/state XDG_CACHE_HOME=<tmp>/cache \
+    nvim --headless "+Lazy! restore" +qa
+  ```
+
+- Read the output for errors.
+
 ## User Interaction & Documentation Standards
 
 **An agent must:**
@@ -39,6 +60,7 @@ Before adding, removing, or changing a dependency, read `SECURITY.md` and obey i
 **An agent must:**
 
 - **Work in a git worktree.** Before you change files, make sure the session runs in a worktree. If it does not, create a worktree on a new branch for the task. Make all changes in the worktree, never in the main checkout.
+- **Put the worktree at `~/.config/nvim-<name>`.** Neovim loads a config only from `~/.config/<NVIM_APPNAME>`. Test the worktree with `NVIM_APPNAME=nvim-<name> nvim`.
 - **Stay inside the worktree.** The worktree is the repository. Use relative paths. Files outside the worktree belong to a different branch and give stale results.
 - **Treat files you did not create as work of another session.** Several agent sessions can share one worktree. Ask the user before you delete, reset, or discard such files, including untracked files.
 - **Ask the user how to continue** when a pre-commit hook fails on files you did not touch.
