@@ -12,3 +12,5 @@ map("n", "<C-w><Down>", "<C-w>-", { desc = "Decrease window height" })
 map("n", "<leader>ff", ":find ", { desc = "Find file" })
 map("n", "<leader>fg", ":grep ", { desc = "Search text" })
 map("n", "<leader>fb", ":buffer ", { desc = "Switch buffer" })
+
+map("n", "<leader>uc", ":colorscheme ", { desc = "Select theme" })

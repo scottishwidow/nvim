@@ -164,11 +164,11 @@ description: "Task list for the minimal Neovim configuration rebuild"
 
 ### Implementation for User Story 6
 
-- [ ] T045 [US6] Create `lua/config/appearance.lua` (research.md R12, FR-026 to FR-028). Call `require("nvim-web-devicons").setup()`. Call `require("solarized-osaka").setup({})`, then `vim.cmd.colorscheme("solarized-osaka")` inside `pcall`. If it fails (for example, the extension is not installed because there is no network), use `habamax` with no error.
-- [ ] T046 [US6] In `lua/config/keymaps.lua`, add n `<leader>uc` to `:colorscheme ` without Enter (`Select theme`).
-- [ ] T047 [US6] In `init.lua`, add `require("config.appearance")` after plugins and before treesitter (depends on T045).
-- [ ] T048 [US6] Run quickstart.md step 10. Then start the editor with `TERM=xterm` in a terminal without a Nerd Font and confirm no errors (spec User Story 6, scenario 4).
-- [ ] T049 [US6] Commit `lua/config/appearance.lua`, `lua/config/keymaps.lua`, and `init.lua` with the message `feat(config): add theme and icons`.
+- [X] T045 [US6] Create `lua/config/appearance.lua` (research.md R12, FR-026 to FR-028). Call `require("nvim-web-devicons").setup()`. Call `require("solarized-osaka").setup({})`, then `vim.cmd.colorscheme("solarized-osaka")` inside `pcall`. If it fails (for example, the extension is not installed because there is no network), use `habamax` with no error.
+- [X] T046 [US6] In `lua/config/keymaps.lua`, add n `<leader>uc` to `:colorscheme ` without Enter (`Select theme`).
+- [X] T047 [US6] In `init.lua`, add `require("config.appearance")` after plugins and before treesitter (depends on T045).
+- [X] T048 [US6] Run quickstart.md step 10. Then start the editor with `TERM=xterm` in a terminal without a Nerd Font and confirm no errors (spec User Story 6, scenario 4).
+- [X] T049 [US6] Commit `lua/config/appearance.lua`, `lua/config/keymaps.lua`, and `init.lua` with the message `feat(config): add theme and icons`.
 
 **Checkpoint**: All user stories work independently.
 

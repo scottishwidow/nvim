@@ -9,6 +9,7 @@ vim.g.maplocalleader = "\\"
 require("config.options")
 require("config.filetypes")
 require("config.plugins")
+require("config.appearance")
 require("config.treesitter")
 require("config.lsp")
 require("config.files")
