@@ -1,16 +1,16 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+local map = vim.keymap.set
 
-local keymap = vim.keymap
+map("n", "+", "<C-a>", { desc = "Increment number" })
+map("n", "-", "<C-x>", { desc = "Decrement number" })
+map("n", "<C-a>", "gg<S-v>G", { desc = "Select full buffer" })
 
-keymap.set("n", "+", "<C-a>", { desc = "Increment" })
-keymap.set("n", "-", "<C-x>", { desc = "Decrement" })
+map("n", "<C-w><Left>", "<C-w><", { desc = "Decrease window width" })
+map("n", "<C-w><Right>", "<C-w>>", { desc = "Increase window width" })
+map("n", "<C-w><Up>", "<C-w>+", { desc = "Increase window height" })
+map("n", "<C-w><Down>", "<C-w>-", { desc = "Decrease window height" })
 
-keymap.set("n", "<C-a>", "gg<S-v>G", { desc = "Select all" })
+map("n", "<leader>ff", ":find ", { desc = "Find file" })
+map("n", "<leader>fg", ":grep ", { desc = "Search text" })
+map("n", "<leader>fb", ":buffer ", { desc = "Switch buffer" })
 
--- Resize window
-keymap.set("n", "<C-w><left>", "<C-w><")
-keymap.set("n", "<C-w><right>", "<C-w>>")
-keymap.set("n", "<C-w><up>", "<C-w>+")
-keymap.set("n", "<C-w><down>", "<C-w>-")
+map("n", "<leader>uc", ":colorscheme ", { desc = "Select theme" })
