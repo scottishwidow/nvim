@@ -2,11 +2,9 @@
 
 This file defines how coding agents should operate in this repository.
 
-<!-- Short project description -->
-
 ## What the project is
 
-<!-- Short project description -->
+Personal Neovim config that layers a handful of opinionated tweaks on top of [LazyVim](https://lazyvim.org).
 
 ## User Interaction & Documentation Standards
 
