@@ -1,0 +1,34 @@
+{
+  "plugins": {
+    "SchemaStore.nvim": {
+      "rev": "df82e0f927cbd20169265733d909b1c7042ce180",
+      "src": "https://github.com/b0o/SchemaStore.nvim",
+      "version": "'df82e0f927cbd20169265733d909b1c7042ce180'"
+    },
+    "gitsigns.nvim": {
+      "rev": "a462f416e2ce4744531c6256252dee99a7d34a83",
+      "src": "https://github.com/lewis6991/gitsigns.nvim",
+      "version": "'v2.1.0'"
+    },
+    "nvim-treesitter": {
+      "rev": "19bdfc04f40ed2ccb3340591d125f759b0406875",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'19bdfc04f40ed2ccb3340591d125f759b0406875'"
+    },
+    "nvim-web-devicons": {
+      "rev": "0dc0cfb0c6858041174a53c7aa4adaf65e994b3c",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons",
+      "version": "'0dc0cfb0c6858041174a53c7aa4adaf65e994b3c'"
+    },
+    "oil.nvim": {
+      "rev": "17c0a8faaf48298a0c0cfb0d757c0eaee4ff7a32",
+      "src": "https://github.com/stevearc/oil.nvim",
+      "version": "'v2.16.0'"
+    },
+    "solarized-osaka.nvim": {
+      "rev": "a21176efde15fab21fabda0bf2ba123ed6d7332d",
+      "src": "https://github.com/craftzdog/solarized-osaka.nvim",
+      "version": "'a21176efde15fab21fabda0bf2ba123ed6d7332d'"
+    }
+  }
+}

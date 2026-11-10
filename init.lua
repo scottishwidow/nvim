@@ -1,0 +1,12 @@
+if vim.fn.has("nvim-0.12") == 0 then
+  vim.api.nvim_echo({ { "This configuration requires Neovim 0.12 or later.", "ErrorMsg" } }, true, {})
+  return
+end
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+require("config.options")
+require("config.plugins")
+require("config.keymaps")
+require("config.autocmds")
