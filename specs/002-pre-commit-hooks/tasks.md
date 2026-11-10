@@ -32,7 +32,7 @@ description: "Task list for Basic Pre-Commit Hooks"
 **Purpose**: Create the hook configuration file that all stories add to.
 
 - [ ] T003 Create `.pre-commit-config.yaml` with a top-level `repos:` list and the first source entry: `repo: https://github.com/pre-commit/pre-commit-hooks`, `rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0`, and an empty `hooks:` list. Rule from data-model.md: "`rev`: Full 40-character commit SHA, with a `# frozen: <tag>` comment (FR-007)". Add no other comments (CLAUDE.md code comment rules)
-- [ ] T004 Run `pre-commit install` in the worktree and confirm that git now uses the pre-commit hook script (it is written to the hooks directory that `git rev-parse --git-path hooks` prints; no repository file)
+- [ ] T004 Run `pre-commit install --allow-missing-config` in the worktree and confirm that git now uses the pre-commit hook script (it is written to the hooks directory that `git rev-parse --git-path hooks` prints; no repository file). All worktrees share this directory. The flag lets commits continue in checkouts that do not have `.pre-commit-config.yaml` yet. Confirm that the command finishes in under 1 minute (SC-001)
 
 **Checkpoint**: The configuration file exists and git runs pre-commit on each commit.
 
@@ -42,14 +42,14 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 **Goal**: Commits are blocked or fixed for trailing whitespace, missing final newline, merge conflict markers, large files, and invalid JSON, YAML, or TOML.
 
-**Independent Test**: Quickstart scenarios 2, 3, and 4 block the commit; a clean commit succeeds.
+**Independent Test**: Quickstart scenarios 2, 3, 4, 8, 9, and 10 block the commit; a clean commit succeeds.
 
 ### Implementation for User Story 1
 
 - [ ] T005 [US1] In `.pre-commit-config.yaml`, under the `pre-commit-hooks` source, add the hooks `trailing-whitespace` and `end-of-file-fixer`. Give each hook `exclude: ^(\.specify/|\.agents/skills/|\.claude/skills/|lazyvim\.json$)` (contract "Managed paths"; research R5)
 - [ ] T006 [US1] In `.pre-commit-config.yaml`, under the same source, add `check-merge-conflict`, `check-added-large-files` with `args: [--maxkb=500]`, `check-json`, `check-yaml`, and `check-toml`, with no exclusions (contract table; FR-003 to FR-005)
 - [ ] T007 [US1] Run `pre-commit run --all-files`. Expect `end-of-file-fixer` to add a final newline to `stylua.toml` only. Confirm that no file under `.specify/`, `.agents/skills/`, or `.claude/skills/`, and not `lazyvim.json`, was changed (`git status --short`)
-- [ ] T008 [US1] Run quickstart scenarios 2, 3, and 4 from `specs/002-pre-commit-hooks/quickstart.md`. Confirm each blocks the commit. Remove and unstage the scratch files after each scenario
+- [ ] T008 [US1] Run quickstart scenarios 2, 3, 4, 8, 9, and 10 from `specs/002-pre-commit-hooks/quickstart.md`. Confirm each blocks the commit and names the scratch file. If a commit succeeds, stop and ask the user. Remove and unstage the scratch files after each scenario
 
 **Checkpoint**: File hygiene checks work. This is the MVP.
 

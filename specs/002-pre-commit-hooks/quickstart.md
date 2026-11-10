@@ -20,7 +20,7 @@ printf 'local x = 1   \n' > scratch.lua && git add scratch.lua
 git commit -m test
 ```
 
-Expected: `trailing whitespace` prints `Failed - files were modified by this hook`. The commit is blocked. `scratch.lua` has no trailing spaces.
+Expected: `trailing whitespace` prints `Failed - files were modified by this hook` and names `scratch.lua`. The commit is blocked. `scratch.lua` has no trailing spaces.
 
 ## Scenario 3: Invalid JSON is rejected (User Story 1)
 
@@ -59,6 +59,33 @@ grep -E '^\s+rev:' .pre-commit-config.yaml
 ```
 
 Expected: every `rev` is a 40-character hexadecimal SHA.
+
+## Scenario 8: Invalid YAML is rejected (User Story 1)
+
+```sh
+printf 'a: [1, 2\n' > scratch.yaml && git add scratch.yaml
+git commit -m test
+```
+
+Expected: `check yaml` fails and names `scratch.yaml`. The commit is blocked.
+
+## Scenario 9: Invalid TOML is rejected (User Story 1)
+
+```sh
+printf 'a = \n' > scratch.toml && git add scratch.toml
+git commit -m test
+```
+
+Expected: `check toml` fails and names `scratch.toml`. The commit is blocked.
+
+## Scenario 10: Large file is rejected (FR-005)
+
+```sh
+head -c 600000 /dev/zero > scratch.bin && git add scratch.bin
+git commit -m test
+```
+
+Expected: `check for added large files` fails and names `scratch.bin` with its size. The commit is blocked.
 
 ## Cleanup
 

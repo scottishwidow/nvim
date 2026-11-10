@@ -27,7 +27,7 @@ Managed paths (regular expression):
 |---------|---------|-----------------|
 | Install the framework (once per machine) | `uv tool install pre-commit==4.7.0 --exclude-newer 2026-10-13` | `pre-commit --version` prints `pre-commit 4.7.0` |
 | Install the Lua formatter (once per machine) | `cargo install stylua --version 2.6.0 --locked` | `stylua --version` prints `stylua 2.6.0` |
-| Enable the checks (once per clone) | `pre-commit install` | Git hook written to the hooks directory |
+| Enable the checks (once per clone) | `pre-commit install --allow-missing-config` | Git hook written to the hooks directory; commits in checkouts without the configuration file are not blocked |
 | Run on demand (User Story 3) | `pre-commit run --all-files` | Each check prints `Passed`, `Failed`, or `Skipped` |
 | Commit (User Stories 1 and 2) | `git commit` | Checks run on staged files only |
 

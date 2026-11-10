@@ -88,7 +88,7 @@ A contributor wants to check the whole repository, not only staged files, for ex
 
 ### Measurable Outcomes
 
-- **SC-001**: A new contributor can enable the checks in under 2 minutes with at most 2 commands.
+- **SC-001**: On a machine that has the tools installed, a contributor can enable the checks in a new clone with 1 command in under 1 minute. A new machine needs at most 3 commands in total.
 - **SC-002**: 100% of the failure types in the acceptance scenarios block the commit.
 - **SC-003**: The checks finish in under 10 seconds for a typical commit of up to 10 files, after the first run.
 - **SC-004**: A full on-demand run on the current repository reports zero failures after the feature is complete.
@@ -99,6 +99,6 @@ A contributor wants to check the whole repository, not only staged files, for ex
 - Scope is local commit-time checks only. Running the checks in continuous integration is out of scope for this feature.
 - "Basic" means file hygiene, structured-data syntax, and Lua formatting. Lua static analysis (linting), spell checking, and Markdown linting are out of scope.
 - Lua formatting uses the rules in the existing `stylua.toml` file. No change to those rules is part of this feature.
-- Contributors have Python available, which the pre-commit framework requires.
+- Contributors have Python 3.11 or later, `uv`, and a Rust toolchain (`cargo`) available. pre-commit requires Python; `uv` installs pre-commit; `cargo` builds the Lua formatter.
 - The first full run can change existing files (whitespace, final newlines, Lua formatting). These changes go in a separate commit from the hook configuration.
 - Documentation of the setup steps is limited to what the user asks for; no new documentation file is part of this feature unless requested.
