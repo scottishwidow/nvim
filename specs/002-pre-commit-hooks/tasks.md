@@ -22,8 +22,8 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 **Purpose**: Install the pinned tools on the developer machine. These tasks change no repository file.
 
-- [ ] T001 [P] Install pre-commit with `uv tool install pre-commit==4.7.0 --exclude-newer 2026-10-13`, then confirm that `pre-commit --version` prints `pre-commit 4.7.0` (research R1; no repository file)
-- [ ] T002 [P] Install StyLua with `cargo install stylua --version 2.6.0 --locked`, then confirm that `stylua --version` prints `stylua 2.6.0` (research R4; no repository file)
+- [X] T001 [P] Install pre-commit with `uv tool install pre-commit==4.7.0 --exclude-newer 2026-10-13`, then confirm that `pre-commit --version` prints `pre-commit 4.7.0` (research R1; no repository file)
+- [X] T002 [P] Install StyLua with `cargo install stylua --version 2.6.0 --locked`, then confirm that `stylua --version` prints `stylua 2.6.0` (research R4; no repository file)
 
 ---
 
@@ -31,8 +31,8 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 **Purpose**: Create the hook configuration file that all stories add to.
 
-- [ ] T003 Create `.pre-commit-config.yaml` with a top-level `repos:` list and the first source entry: `repo: https://github.com/pre-commit/pre-commit-hooks`, `rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0`, and an empty `hooks:` list. Rule from data-model.md: "`rev`: Full 40-character commit SHA, with a `# frozen: <tag>` comment (FR-007)". Add no other comments (CLAUDE.md code comment rules)
-- [ ] T004 Run `pre-commit install --allow-missing-config` in the worktree and confirm that git now uses the pre-commit hook script (it is written to the hooks directory that `git rev-parse --git-path hooks` prints; no repository file). All worktrees share this directory. The flag lets commits continue in checkouts that do not have `.pre-commit-config.yaml` yet. Confirm that the command finishes in under 1 minute (SC-001)
+- [X] T003 Create `.pre-commit-config.yaml` with a top-level `repos:` list and the first source entry: `repo: https://github.com/pre-commit/pre-commit-hooks`, `rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0`, and an empty `hooks:` list. Rule from data-model.md: "`rev`: Full 40-character commit SHA, with a `# frozen: <tag>` comment (FR-007)". Add no other comments (CLAUDE.md code comment rules)
+- [X] T004 Run `pre-commit install --allow-missing-config` in the worktree and confirm that git now uses the pre-commit hook script (it is written to the hooks directory that `git rev-parse --git-path hooks` prints; no repository file). All worktrees share this directory. The flag lets commits continue in checkouts that do not have `.pre-commit-config.yaml` yet. Confirm that the command finishes in under 1 minute (SC-001)
 
 **Checkpoint**: The configuration file exists and git runs pre-commit on each commit.
 
@@ -46,10 +46,10 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] In `.pre-commit-config.yaml`, under the `pre-commit-hooks` source, add the hooks `trailing-whitespace` and `end-of-file-fixer`. Give each hook `exclude: ^(\.specify/|\.agents/skills/|\.claude/skills/|lazyvim\.json$)` (contract "Managed paths"; research R5)
-- [ ] T006 [US1] In `.pre-commit-config.yaml`, under the same source, add `check-merge-conflict`, `check-added-large-files` with `args: [--maxkb=500]`, `check-json`, `check-yaml`, and `check-toml`, with no exclusions (contract table; FR-003 to FR-005)
-- [ ] T007 [US1] Run `pre-commit run --all-files`. Expect `end-of-file-fixer` to add a final newline to `stylua.toml` only. Confirm that no file under `.specify/`, `.agents/skills/`, or `.claude/skills/`, and not `lazyvim.json`, was changed (`git status --short`)
-- [ ] T008 [US1] Run quickstart scenarios 2, 3, 4, 8, 9, and 10 from `specs/002-pre-commit-hooks/quickstart.md`. Confirm each blocks the commit and names the scratch file. If a commit succeeds, stop and ask the user. Remove and unstage the scratch files after each scenario
+- [X] T005 [US1] In `.pre-commit-config.yaml`, under the `pre-commit-hooks` source, add the hooks `trailing-whitespace` and `end-of-file-fixer`. Give each hook `exclude: ^(\.specify/|\.agents/skills/|\.claude/skills/|lazyvim\.json$)` (contract "Managed paths"; research R5)
+- [X] T006 [US1] In `.pre-commit-config.yaml`, under the same source, add `check-merge-conflict` with `args: [--assume-in-merge]`, `check-added-large-files` with `args: [--maxkb=500]`, `check-json`, `check-yaml`, and `check-toml`, with no exclusions (contract table; FR-003 to FR-005)
+- [X] T007 [US1] Run `pre-commit run --all-files`. Expect `end-of-file-fixer` to add a final newline to `stylua.toml` only. Confirm that no file under `.specify/`, `.agents/skills/`, or `.claude/skills/`, and not `lazyvim.json`, was changed (`git status --short`)
+- [X] T008 [US1] Run quickstart scenarios 2, 3, 4, 8, 9, and 10 from `specs/002-pre-commit-hooks/quickstart.md`. Confirm each blocks the commit and names the scratch file. If a commit succeeds, stop and ask the user. Remove and unstage the scratch files after each scenario
 
 **Checkpoint**: File hygiene checks work. This is the MVP.
 
@@ -63,9 +63,9 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 ### Implementation for User Story 2
 
-- [ ] T009 [US2] In `.pre-commit-config.yaml`, append a second source: `repo: https://github.com/JohnnyMorganz/StyLua`, `rev: 56f9630407f6bf6ee524fb1d7fe71f005a570478  # frozen: v2.6.0`, with one hook `id: stylua-system` and no arguments (research R4: do not use the `stylua` or `stylua-github` hook ids)
-- [ ] T010 [US2] Run `pre-commit run stylua-system --all-files`. Review each Lua change under `lua/` and in `init.lua` with `git diff`. Confirm that the changes are formatting only
-- [ ] T011 [US2] Run quickstart scenarios 5 and 6 from `specs/002-pre-commit-hooks/quickstart.md`. For scenario 6, run with a `PATH` that does not contain `~/.cargo/bin`. Remove and unstage the scratch files
+- [X] T009 [US2] In `.pre-commit-config.yaml`, append a second source: `repo: https://github.com/JohnnyMorganz/StyLua`, `rev: 56f9630407f6bf6ee524fb1d7fe71f005a570478  # frozen: v2.6.0`, with one hook `id: stylua-system` and no arguments (research R4: do not use the `stylua` or `stylua-github` hook ids)
+- [X] T010 [US2] Run `pre-commit run stylua-system --all-files`. Review each Lua change under `lua/` and in `init.lua` with `git diff`. Confirm that the changes are formatting only
+- [X] T011 [US2] Run quickstart scenarios 5 and 6 from `specs/002-pre-commit-hooks/quickstart.md`. For scenario 6, run with a `PATH` that does not contain `~/.cargo/bin`. Remove and unstage the scratch files
 
 **Checkpoint**: Lua formatting is enforced at commit time.
 
@@ -79,7 +79,7 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 ### Implementation for User Story 3
 
-- [ ] T012 [US3] Run `pre-commit run --all-files` and confirm that every check prints `Passed` or `Skipped` and the exit code is `0` (SC-004, FR-010)
+- [X] T012 [US3] Run `pre-commit run --all-files` and confirm that every check prints `Passed` or `Skipped` and the exit code is `0` (SC-004, FR-010)
 
 **Checkpoint**: All user stories work.
 
@@ -89,10 +89,10 @@ description: "Task list for Basic Pre-Commit Hooks"
 
 **Purpose**: Verify the pins and make the commits.
 
-- [ ] T013 Run quickstart scenario 7 (`grep -E '^\s+rev:' .pre-commit-config.yaml`) and confirm that each `rev` is a 40-character hexadecimal SHA (SC-005)
-- [ ] T014 Time a commit of up to 10 changed files after the first run and confirm the checks finish in under 10 seconds (SC-003)
-- [ ] T015 Commit `.pre-commit-config.yaml` and the `specs/002-pre-commit-hooks/` files with message `chore(pre-commit): add basic pre-commit hooks`. Let the hooks run; never use `--no-verify`
-- [ ] T016 Commit the fixes from the first full run (`stylua.toml` and any Lua files under `lua/` or `init.lua`) as a separate commit with message `style: apply pre-commit fixes` (spec assumption: fixes in a separate commit)
+- [X] T013 Run quickstart scenario 7 (`grep -E '^\s+rev:' .pre-commit-config.yaml`) and confirm that each `rev` is a 40-character hexadecimal SHA (SC-005)
+- [X] T014 Time a commit of up to 10 changed files after the first run and confirm the checks finish in under 10 seconds (SC-003)
+- [X] T015 Commit `.pre-commit-config.yaml` and the `specs/002-pre-commit-hooks/` files with message `chore(pre-commit): add basic pre-commit hooks`. Let the hooks run; never use `--no-verify`
+- [X] T016 Commit the fixes from the first full run (`stylua.toml` and any Lua files under `lua/` or `init.lua`) as a separate commit with message `style: apply pre-commit fixes` (spec assumption: fixes in a separate commit)
 
 ---
 

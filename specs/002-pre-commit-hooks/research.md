@@ -11,8 +11,9 @@ All facts below were verified on 2026-11-10 against the official sources (GitHub
 
 ## R2: File hygiene hooks
 
-- **Decision**: `https://github.com/pre-commit/pre-commit-hooks`, tag `v6.0.0`, commit `3e8a8703264a2f4a69428a0aa4dcb512790b2c8c`. Hooks: `trailing-whitespace`, `end-of-file-fixer`, `check-merge-conflict`, `check-added-large-files` (`--maxkb=500`), `check-json`, `check-yaml`, `check-toml`.
+- **Decision**: `https://github.com/pre-commit/pre-commit-hooks`, tag `v6.0.0`, commit `3e8a8703264a2f4a69428a0aa4dcb512790b2c8c`. Hooks: `trailing-whitespace`, `end-of-file-fixer`, `check-merge-conflict` (`--assume-in-merge`), `check-added-large-files` (`--maxkb=500`), `check-json`, `check-yaml`, `check-toml`.
 - **Rationale**: Official hook set of the framework. Each hook maps to one functional requirement (FR-002 to FR-005).
+- **Merge check**: Without `--assume-in-merge`, `check-merge-conflict` checks files only during an active git merge. A normal commit with conflict markers then passes, which breaks FR-003. The flag makes the check run on each commit. A test on all tracked files found no false positives.
 - **Alternatives considered**: `mixed-line-ending`, `check-symlinks`, `detect-private-key` (useful, but outside the "basic" scope of the spec).
 
 ## R3: Version pin format

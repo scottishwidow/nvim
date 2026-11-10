@@ -8,7 +8,7 @@
 |--------|---------------|-----|----------|-----------------------|
 | `https://github.com/pre-commit/pre-commit-hooks` | `3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` | `v6.0.0` | `trailing-whitespace` | exclude: managed paths |
 | | | | `end-of-file-fixer` | exclude: managed paths |
-| | | | `check-merge-conflict` | none |
+| | | | `check-merge-conflict` | `--assume-in-merge` |
 | | | | `check-added-large-files` | `--maxkb=500` |
 | | | | `check-json` | none |
 | | | | `check-yaml` | none |
