@@ -1,0 +1,20 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: end-of-file-fixer
+        exclude: ^lazyvim\.json$
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: 56f9630407f6bf6ee524fb1d7fe71f005a570478 # frozen: v2.6.0
+    hooks:
+      - id: stylua

@@ -47,4 +47,3 @@ Before adding, removing, or changing a dependency, read `SECURITY.md` and obey i
 - **Let pre-commit hooks run.** Fix the cause of a hook failure. Never use `--no-verify`.
 - **Check https://www.githubstatus.com/** before you retry or change anything after an unexplained git or GitHub failure.
 - **Fix review findings and incomplete work in the open PR.** Open a follow-up issue only for work deferred from a feature that is already merged.
-
