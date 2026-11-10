@@ -14,30 +14,32 @@ M.server_executables = {
 
 local group = vim.api.nvim_create_augroup("config_lsp", { clear = true })
 
-local function warn_once_when_missing(name, executable)
-  local warned = false
-  vim.api.nvim_create_autocmd("FileType", {
-    group = group,
-    pattern = vim.lsp.config[name].filetypes,
-    callback = function()
-      if warned then
-        return
-      end
-      warned = true
-      vim.notify(("%s not found on PATH. Install it to get language features."):format(executable), vim.log.levels.WARN)
-    end,
-  })
-end
+-- A PATH lookup for a missing command is slow under WSL, because PATH has Windows directories.
+-- So each server is checked only when the first file of one of its file types opens.
+local checked_servers = {}
 
-local available_servers = {}
-for name, executable in vim.spairs(M.server_executables) do
-  if vim.fn.executable(executable) == 1 then
-    table.insert(available_servers, name)
-  else
-    warn_once_when_missing(name, executable)
+local function enable_servers_for(filetype)
+  for name, executable in vim.spairs(M.server_executables) do
+    if not checked_servers[name] and vim.tbl_contains(vim.lsp.config[name].filetypes, filetype) then
+      checked_servers[name] = true
+      if vim.fn.executable(executable) == 1 then
+        vim.lsp.enable(name)
+      else
+        vim.notify(
+          ("%s not found on PATH. Install it to get language features."):format(executable),
+          vim.log.levels.WARN
+        )
+      end
+    end
   end
 end
-vim.lsp.enable(available_servers)
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = group,
+  callback = function(args)
+    enable_servers_for(args.match)
+  end,
+})
 
 vim.o.completeopt = "menuone,noselect,popup,fuzzy"
 vim.o.autocomplete = true
