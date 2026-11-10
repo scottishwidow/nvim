@@ -57,7 +57,7 @@ The editor uses each tool from `PATH`. If a tool is missing, the editor shows on
 | Python | `ruff` | 0.17.4 | `uv tool install ruff==0.17.4` |
 | Ansible | `ansible-language-server` | 26.6.0 | `npm install --global @ansible/ansible-language-server@26.6.0` |
 | Markdown | `marksman` | 2026-02-08 | See [Markdown](#markdown) |
-| JSON | `vscode-json-languageserver` | 1.3.4 | `npm install --global vscode-json-languageserver@1.3.4` |
+| JSON | `vscode-json-language-server` | 4.10.0 | `npm install --global vscode-langservers-extracted@4.10.0` |
 | Markdown format | `prettier` | 3.9.10 | `npm install --global prettier@3.9.10` |
 
 A project can have its own TypeScript. When `node_modules/.bin/tsc` exists in the project and its major version is 7 or later, the editor uses it.

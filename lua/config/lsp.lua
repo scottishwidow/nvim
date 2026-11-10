@@ -9,7 +9,7 @@ M.server_executables = {
   ruff = "ruff",
   ansiblels = "ansible-language-server",
   marksman = "marksman",
-  jsonls = "vscode-json-languageserver",
+  jsonls = "vscode-json-language-server",
 }
 
 local group = vim.api.nvim_create_augroup("config_lsp", { clear = true })

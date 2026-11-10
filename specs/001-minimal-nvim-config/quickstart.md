@@ -71,7 +71,7 @@ Open one sample file for each language. Check highlighting with `:Inspect` and s
 Also check:
 
 - In `main.tf`, add extra spaces and press `<leader>cf`. The spaces are removed.
-- In `package.json`, type an unknown key. A schema diagnostic shows.
+- In `package.json`, set `"name"` to a number. A schema diagnostic shows. The `package.json` schema allows unknown keys, so an unknown key gives no diagnostic.
 - Remove `marksman` from `PATH` and open `README.md`. One warning names `marksman`. No error shows.
 
 ## 7. File manager and cheat sheet

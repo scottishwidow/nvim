@@ -60,7 +60,7 @@ The total is 6 extensions. SC-002 allows 15. All pass R0. vim-fugitive was remov
 | Python | `ruff` | `ruff server` | PyPI `ruff` (Astral) | 0.17.4 (2026-11-05) | Active |
 | Ansible | `ansiblels` | `ansible-language-server --stdio` | npm `@ansible/ansible-language-server`, built from `ansible/vscode-ansible` | 26.6.0 (2026-06-01) | Active |
 | Markdown | `marksman` | `marksman server` | GitHub release `artempyanykh/marksman`, file `marksman-linux-x64` | 2026-02-08 | Active, last commit 2026-09-14 |
-| JSON | `jsonls` | `vscode-json-languageserver --stdio` | npm `vscode-json-languageserver` (Microsoft, built from `microsoft/vscode`) | 1.3.4 (2026-09-28) | Active |
+| JSON | `jsonls` | `vscode-json-language-server --stdio` | npm `vscode-langservers-extracted` (JSON server extracted from `microsoft/vscode`) | 4.10.0 (2024-05-08) | Not active, no newer source |
 | Markdown format | none | `prettier` | npm `prettier` | 3.9.10 (2026-10-10) | Active |
 | Git interface | none | `lazygit` | GitHub release `jesseduffield/lazygit` | 0.66.3 (2026-11-07) | Active, not installed on this machine |
 
@@ -69,7 +69,7 @@ The total is 6 extensions. SC-002 allows 15. All pass R0. vim-fugitive was remov
 | Before | After | Reason |
 |--------|-------|--------|
 | `vtsls` (npm `@vtsls/language-server` 0.3.0) | TypeScript 7 native server `tsc --lsp --stdio` | TypeScript 7.0 is the current release. It has a built-in LSP server. vtsls wraps the TypeScript 5 and 6 `tsserver`. TypeScript 7 does not ship a JavaScript API, so vtsls cannot use the TypeScript 7 version in a project. The last vtsls release is 2025-12-24. |
-| npm `vscode-langservers-extracted` 4.10.0 | npm `vscode-json-languageserver` 1.3.4 | `vscode-langservers-extracted` has no release since 2024-05-08 and no commit since 2024-06-04. Microsoft publishes the same JSON server from the VS Code repository. |
+| npm `vscode-json-languageserver` 1.3.4 | npm `vscode-langservers-extracted` 4.10.0 | `vscode-json-languageserver` 1.3.4 is from 2021-02-22. `vscode-langservers-extracted` 4.10.0 (2024-05-08) has a newer JSON server. No maintained npm package has a newer one. |
 | Old repository `ansible/ansible-language-server` | Same npm package, now built from `ansible/vscode-ansible` | The old repository is archived. Its code moved to the `vscode-ansible` monorepo. The npm package is current. |
 
 ### TypeScript 7 server details
