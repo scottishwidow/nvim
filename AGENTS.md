@@ -2,11 +2,9 @@
 
 This file defines how coding agents should operate in this repository.
 
-<!-- Short project description -->
-
 ## What the project is
 
-<!-- Short project description -->
+This project contains a personal `nvim` configuration setup.
 
 ## User Interaction & Documentation Standards
 
