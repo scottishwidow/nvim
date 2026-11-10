@@ -147,10 +147,10 @@ description: "Task list for the minimal Neovim configuration rebuild"
 
 ### Implementation for User Story 5
 
-- [ ] T041 [US5] In `lua/config/terminal.lua`, add the shell overlay (research.md R10, FR-023 to FR-025). Keep the state `{ buf, win }`. Add `M.toggle_shell()`: if the window is valid, hide it with `vim.api.nvim_win_hide`; else call `M.open_float({ buf = state.buf, cmd = vim.o.shell, on_exit = <reset state> })` and store the new handles. Map n and t `<A-t>` to `M.toggle_shell` (`Show or hide terminal`). When the shell buffer is created, map buffer-local t `<Esc><Esc>` to `<C-\><C-n>` (`Leave terminal mode`).
-- [ ] T042 [US5] In `init.lua`, add `require("config.terminal")` after git and before keymaps (depends on T041).
+- [X] T041 [US5] In `lua/config/terminal.lua`, add the shell overlay (research.md R10, FR-023 to FR-025). Keep the state `{ buf, win }`. Add `M.toggle_shell()`: if the window is valid, hide it with `vim.api.nvim_win_hide`; else call `M.open_float({ buf = state.buf, cmd = vim.o.shell, on_exit = <reset state> })` and store the new handles. Map n and t `<A-t>` to `M.toggle_shell` (`Show or hide terminal`). When the shell buffer is created, map buffer-local t `<Esc><Esc>` to `<C-\><C-n>` (`Leave terminal mode`).
+- [X] T042 [US5] In `init.lua`, add `require("config.terminal")` after git and before keymaps (depends on T041).
 - [ ] T043 [US5] Run quickstart.md step 9. If `<A-t>` does not reach Neovim in the WSL terminal, tell the user and agree on a different key before you change it.
-- [ ] T044 [US5] Commit `lua/config/terminal.lua` and `init.lua` with the message `feat(config): add floating terminal overlay`.
+- [X] T044 [US5] Commit `lua/config/terminal.lua` and `init.lua` with the message `feat(config): add floating terminal overlay`.
 
 **Checkpoint**: The terminal overlay works.
 
