@@ -16,3 +16,12 @@
 - **Never change dependency versions** as a side effect of other work. Upgrade only when the user asks.
 - **Never pipe a remote script into a shell** (for example `curl ... | sh`).
 - **Never disable integrity checks**, such as TLS verification, checksum verification, or signature verification.
+
+## Neovim Plugins and Tools
+
+**An agent must:**
+
+- **Install plugins from `lazy-lock.json` only.** Use `:Lazy restore`. Do not use `:Lazy sync` or `:Lazy update` unless the user asks for an update.
+- **Check the `lazy-lock.json` diff after you add a plugin or extra.** Only the new entries can change. Revert changes to existing commits.
+- **Commit `lazy-lock.json`** with the change that caused it.
+- **Install language servers, linters, and formatters with Mason only.** Do not run `:MasonUpdate` or update Mason packages unless the user asks. Mason does not pin package versions, so tell the user about each new Mason package.
