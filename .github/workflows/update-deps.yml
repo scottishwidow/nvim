@@ -1,0 +1,115 @@
+name: Update dependencies
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: update-deps
+  cancel-in-progress: false
+
+env:
+  NVIM_VERSION: v0.12.5
+  NVIM_SHA256: bce0f56eda1f1b1db6eee8f4133d7a38813ea07933837dd1777411ca384c6875
+  DEPS_COOLDOWN_DAYS: "7"
+
+jobs:
+  # Runs upstream plugin code, so it gets a read-only token.
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Neovim
+        run: |
+          archive="$RUNNER_TEMP/nvim.tar.gz"
+          curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+            --output "$archive" \
+            "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz"
+          echo "${NVIM_SHA256}  ${archive}" | sha256sum --check --strict
+          tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
+
+      - name: Link config
+        run: |
+          mkdir -p "$HOME/.config"
+          ln -s "$GITHUB_WORKSPACE" "$HOME/.config/nvim"
+
+      - name: Install plugins from lockfile
+        run: |
+          nvim --headless +qa
+          git diff --exit-code lazy-lock.json
+
+      - name: Update lockfiles
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPS_REPORT: ${{ runner.temp }}/deps-report.md
+        run: nvim --headless -c "luafile scripts/update-deps.lua"
+
+      - name: Install updated plugins
+        run: nvim --headless "+Lazy! restore" +qa
+
+      - name: Smoke test
+        run: nvim --headless -c "luafile scripts/smoke-test.lua"
+
+      - name: Collect results
+        run: |
+          mkdir -p "$RUNNER_TEMP/deps"
+          cp lazy-lock.json mason-lock.json "$RUNNER_TEMP/deps-report.md" "$RUNNER_TEMP/deps/"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: deps-update
+          path: ${{ runner.temp }}/deps
+          if-no-files-found: error
+          retention-days: 7
+
+  # Runs no upstream code. It only commits the lockfiles and opens the pull request.
+  pull-request:
+    needs: update
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      BRANCH: deps/update
+      TITLE: "chore(deps): update plugins and mason registry"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: deps-update
+          path: ${{ runner.temp }}/deps
+
+      - name: Open or update pull request
+        run: |
+          cp "$RUNNER_TEMP/deps/lazy-lock.json" "$RUNNER_TEMP/deps/mason-lock.json" .
+          if git diff --quiet; then
+            echo "No dependency updates."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch --create "$BRANCH"
+          git commit --all --message "$TITLE"
+          # The bot owns this branch and rebuilds it from the default branch on each run.
+          git push --force origin "$BRANCH"
+
+          state="$(gh pr view "$BRANCH" --json state --jq .state 2>/dev/null || true)"
+          if [ "$state" = "OPEN" ]; then
+            gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/deps/deps-report.md"
+          else
+            gh pr create --head "$BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/deps/deps-report.md"
+          fi
