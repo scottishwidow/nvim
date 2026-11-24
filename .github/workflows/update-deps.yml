@@ -57,6 +57,9 @@ jobs:
       - name: Install updated plugins
         run: nvim --headless "+Lazy! restore" +qa
 
+      - name: Build treesitter parsers
+        run: nvim --headless -c "luafile scripts/build-parsers.lua"
+
       - name: Smoke test
         run: nvim --headless -c "luafile scripts/smoke-test.lua"
 
