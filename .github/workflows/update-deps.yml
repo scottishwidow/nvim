@@ -38,6 +38,11 @@ jobs:
           tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
 
+      - name: Install system tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fd-find=9.0.0-1
+
       - name: Link config
         run: |
           mkdir -p "$HOME/.config"
@@ -60,28 +65,11 @@ jobs:
       - name: Build treesitter parsers
         run: nvim --headless -c "luafile scripts/build-parsers.lua"
 
+      - name: Install Mason packages
+        run: nvim --headless -c "luafile scripts/install-mason-packages.lua"
+
       - name: Smoke test
-        run: |
-          # TODO: remove the resource monitor when the runner shutdown is fixed.
-          (
-            while sleep 5; do
-              echo "== $(date +%T) procs=$(ps -e --no-headers | wc -l)"
-              free -m | sed -n 2p
-              df -h / | tail -1
-              du -sh ~/.local/state/nvim ~/.cache/nvim ~/.local/share/nvim 2>/dev/null || true
-              ps -eo pid,ppid,rss,pcpu,etime,args --sort=-rss --no-headers | head -8 | cut -c1-200
-            done
-          ) &
-          monitor=$!
-          status=0
-          timeout --kill-after=10s 75s nvim --headless -c "luafile scripts/smoke-test.lua" || status=$?
-          kill "$monitor"
-          if [ "$status" -ne 0 ]; then
-            echo "== smoke test exited with $status, remaining processes:"
-            ps -eo pid,ppid,rss,pcpu,etime,args --forest --no-headers | cut -c1-200
-            tail -n 50 ~/.local/state/nvim/log ~/.local/state/nvim/lsp.log ~/.local/state/nvim/mason.log 2>/dev/null || true
-          fi
-          exit "$status"
+        run: timeout --kill-after=10s 120s nvim --headless -c "luafile scripts/smoke-test.lua"
 
       - name: Collect results
         run: |

@@ -22,6 +22,8 @@ return {
   "mason-org/mason.nvim",
   opts = {
     registries = { "github:mason-org/mason-registry@" .. locked_registry_version() },
+    -- LazyVim's rust extra expects rust-analyzer from rustup and does not install it.
+    ensure_installed = { "rust-analyzer" },
   },
   init = function()
     vim.api.nvim_create_user_command("MasonRestore", restore_locked_packages, {
