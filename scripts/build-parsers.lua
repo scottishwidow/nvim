@@ -30,9 +30,16 @@ local function main()
   )
   assert(cli_ok, cli_err)
 
-  local installed =
-    require("nvim-treesitter").install(opts.ensure_installed, { max_jobs = MAX_JOBS, summary = true }):wait(TIMEOUT_MS)
-  assert(installed, "some parsers did not install, see :TSLog")
+  local function install_missing()
+    return require("nvim-treesitter")
+      .install(opts.ensure_installed, { max_jobs = MAX_JOBS, summary = true })
+      :wait(TIMEOUT_MS)
+  end
+
+  if not install_missing() then
+    io.stdout:write("retrying parsers that failed to build\n")
+    assert(install_missing(), "some parsers did not install, see :TSLog")
+  end
 end
 
 local ok, err = xpcall(main, debug.traceback)
