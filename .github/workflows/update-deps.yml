@@ -62,9 +62,6 @@ jobs:
       - name: Install updated plugins
         run: nvim --headless "+Lazy! restore" +qa
 
-      - name: Build treesitter parsers
-        run: nvim --headless -c "luafile scripts/build-parsers.lua"
-
       - name: Install Mason packages
         run: nvim --headless -c "luafile scripts/install-mason-packages.lua"
 
