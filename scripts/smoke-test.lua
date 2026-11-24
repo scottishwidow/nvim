@@ -4,14 +4,25 @@
 local FILETYPES = { "lua", "json", "yaml", "helm", "terraform", "hcl", "typescript", "javascript" }
 local SETTLE_TIME_MS = 3000
 local ERROR_PATTERNS = { "^E%d+:", "^Error ", "Error executing", "stack traceback" }
+local LAZYVIM_NOTIFY_RESTORE_TIMEOUT_MS = 1000
 
 local errors = {}
-local notify = vim.notify
-vim.notify = function(message, level, opts)
-  if level == vim.log.levels.ERROR then
-    table.insert(errors, message)
+
+local function capture_error_notifications()
+  -- LazyVim queues notifications at startup and replays them through `vim.notify`.
+  -- A wrapper around the queueing function sends the replay back into the queue, so the replay never ends.
+  local startup_notify = vim.notify
+  vim.wait(LAZYVIM_NOTIFY_RESTORE_TIMEOUT_MS, function()
+    return vim.notify ~= startup_notify
+  end)
+
+  local notify = vim.notify
+  vim.notify = function(message, level, opts)
+    if level == vim.log.levels.ERROR then
+      table.insert(errors, message)
+    end
+    return notify(message, level, opts)
   end
-  return notify(message, level, opts)
 end
 
 local function errors_in_messages()
@@ -29,6 +40,8 @@ local function errors_in_messages()
 end
 
 local function main()
+  capture_error_notifications()
+
   local lazy = require("lazy")
   local plugin_names = vim.tbl_map(function(plugin)
     return plugin.name
