@@ -61,7 +61,27 @@ jobs:
         run: nvim --headless -c "luafile scripts/build-parsers.lua"
 
       - name: Smoke test
-        run: nvim --headless -c "luafile scripts/smoke-test.lua"
+        run: |
+          # TODO: remove the resource monitor when the runner shutdown is fixed.
+          (
+            while sleep 5; do
+              echo "== $(date +%T) procs=$(ps -e --no-headers | wc -l)"
+              free -m | sed -n 2p
+              df -h / | tail -1
+              du -sh ~/.local/state/nvim ~/.cache/nvim ~/.local/share/nvim 2>/dev/null || true
+              ps -eo pid,ppid,rss,pcpu,etime,args --sort=-rss --no-headers | head -8 | cut -c1-200
+            done
+          ) &
+          monitor=$!
+          status=0
+          timeout --kill-after=10s 75s nvim --headless -c "luafile scripts/smoke-test.lua" || status=$?
+          kill "$monitor"
+          if [ "$status" -ne 0 ]; then
+            echo "== smoke test exited with $status, remaining processes:"
+            ps -eo pid,ppid,rss,pcpu,etime,args --forest --no-headers | cut -c1-200
+            tail -n 50 ~/.local/state/nvim/log ~/.local/state/nvim/lsp.log ~/.local/state/nvim/mason.log 2>/dev/null || true
+          fi
+          exit "$status"
 
       - name: Collect results
         run: |
