@@ -38,6 +38,11 @@ jobs:
           tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
 
+      - name: Install system tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fd-find=9.0.0-1
+
       - name: Link config
         run: |
           mkdir -p "$HOME/.config"
@@ -57,8 +62,14 @@ jobs:
       - name: Install updated plugins
         run: nvim --headless "+Lazy! restore" +qa
 
+      - name: Build treesitter parsers
+        run: nvim --headless -c "luafile scripts/build-parsers.lua"
+
+      - name: Install Mason packages
+        run: nvim --headless -c "luafile scripts/install-mason-packages.lua"
+
       - name: Smoke test
-        run: nvim --headless -c "luafile scripts/smoke-test.lua"
+        run: timeout --kill-after=10s 120s nvim --headless -c "luafile scripts/smoke-test.lua"
 
       - name: Collect results
         run: |
